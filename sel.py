@@ -47,10 +47,6 @@ submitinput = browser.find_element_by_id("edit-submit")
 submitinput.click()
 
 
-# reader = csv.DictReader(open("Data_Gov_Chattisgarh.csv"))
-# for raw in reader:
-#     print(raw)
-
 with open("/var/www/seleniumtest/data/Data_Gov_Chattisgarh.CSV",  encoding="utf8", errors='ignore') as f:
 	data = f.read()
 	i = 0
