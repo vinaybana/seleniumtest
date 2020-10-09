@@ -23,35 +23,47 @@ browser = webdriver.Chrome('/var/www/chromedriver', options=options)
 
 
 browser.get('https://data.gov.in/catalog/company-master-data?filters%5Bfield_catalog_reference%5D=354261&format=json&offset=0&limit=6&sort%5Bcreated%5D=desc')
-csvfiles = browser.find_elements_by_link_text("csv")
-action = ActionChains(browser);
-for csvfile in csvfiles:
-	browser.execute_script("arguments[0].click();", csvfile)
-	time.sleep(5)
 
-	selector1 = browser.find_element_by_id("edit-download-reasons-1")
-	browser.execute_script("arguments[0].click();", selector1)
-	time.sleep(1)
+total_file = browser.find_element_by_class_name("view-header").text
+total_count = total_file.split(' ')[4]
+total_page = (int(total_count)//6)+1
+print(total_page)
+for i in range(total_page):
 
-	selector2 = browser.find_element_by_id("edit-reasons-d-4")
-	browser.execute_script("arguments[0].click();", selector2)
+	csvfiles = browser.find_elements_by_link_text("csv")
+	action = ActionChains(browser);
+	print(csvfiles)
+	for csvfile in csvfiles:
+		browser.execute_script("arguments[0].click();", csvfile)
+		time.sleep(5)
 
-	nameinput= browser.find_element_by_id("edit-name-d")
-	nameinput.send_keys('luhegytti')
+		selector1 = browser.find_element_by_id("edit-download-reasons-1")
+		browser.execute_script("arguments[0].click();", selector1)
+		time.sleep(1)
 
-	mailinput = browser.find_element_by_id("edit-mail-d")
-	mailinput.send_keys('luhegytti-0826@yopmail.com')
+		selector2 = browser.find_element_by_id("edit-reasons-d-4")
+		browser.execute_script("arguments[0].click();", selector2)
 
-	submitinput = browser.find_element_by_id("edit-submit")
-	submitinput.click()
+		nameinput= browser.find_element_by_id("edit-name-d")
+		nameinput.send_keys('luhegytti')
 
-	time.sleep(5)
-	browser.switch_to.window(browser.window_handles[1])
-	browser.close()
-	time.sleep(5)
-	browser.switch_to.window(browser.window_handles[0])
+		mailinput = browser.find_element_by_id("edit-mail-d")
+		mailinput.send_keys('luhegytti-0826@yopmail.com')
 
-	print(csvfile.text)
+		submitinput = browser.find_element_by_id("edit-submit")
+		submitinput.click()
+
+		time.sleep(5)
+		browser.switch_to.window(browser.window_handles[1])
+		browser.close()
+		time.sleep(5)
+		browser.switch_to.window(browser.window_handles[0])
+
+		print(csvfile.text)
+	i+=1;
+	pagination = browser.find_element_by_link_text("Next")
+	browser.execute_script("arguments[0].click();", pagination)
+	time.sleep(10)
 
 
 # with open("/var/www/seleniumtest/data/Data_Gov_Chattisgarh.CSV",  encoding="utf8", errors='ignore') as f:
