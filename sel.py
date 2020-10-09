@@ -8,7 +8,7 @@ import csv
 from selenium.webdriver.chrome.options import Options
 
 
-prefs = {"download.default_directory" : '/var/www/env'}
+prefs = {"download.default_directory" : '/var/www/seleniumtest/data/'}
 
 options = Options()			
 options.add_argument("--start-maximized")
@@ -23,38 +23,44 @@ browser = webdriver.Chrome('/var/www/chromedriver', options=options)
 
 
 browser.get('https://data.gov.in/catalog/company-master-data?filters%5Bfield_catalog_reference%5D=354261&format=json&offset=0&limit=6&sort%5Bcreated%5D=desc')
-# browser.maximize_window()
-csvfile = browser.find_element_by_class_name("csv")
+csvfiles = browser.find_elements_by_link_text("csv")
 action = ActionChains(browser);
+for csvfile in csvfiles:
+	browser.execute_script("arguments[0].click();", csvfile)
+	time.sleep(5)
 
-action.move_to_element(csvfile).click().perform()
-time.sleep(2)
+	selector1 = browser.find_element_by_id("edit-download-reasons-1")
+	browser.execute_script("arguments[0].click();", selector1)
+	time.sleep(1)
 
-selector1 = browser.find_element_by_id("edit-download-reasons-1")
-action.move_to_element(selector1).click().perform()
-time.sleep(1)
+	selector2 = browser.find_element_by_id("edit-reasons-d-4")
+	browser.execute_script("arguments[0].click();", selector2)
 
-selector2 = browser.find_element_by_id("edit-reasons-d-4")
-browser.execute_script("arguments[0].click();", selector2)
+	nameinput= browser.find_element_by_id("edit-name-d")
+	nameinput.send_keys('luhegytti')
 
-nameinput= browser.find_element_by_id("edit-name-d")
-nameinput.send_keys('luhegytti')
+	mailinput = browser.find_element_by_id("edit-mail-d")
+	mailinput.send_keys('luhegytti-0826@yopmail.com')
 
-mailinput = browser.find_element_by_id("edit-mail-d")
-mailinput.send_keys('luhegytti-0826@yopmail.com')
+	submitinput = browser.find_element_by_id("edit-submit")
+	submitinput.click()
 
-submitinput = browser.find_element_by_id("edit-submit")
-submitinput.click()
+	time.sleep(5)
+	browser.switch_to.window(browser.window_handles[1])
+	browser.close()
+	time.sleep(5)
+	browser.switch_to.window(browser.window_handles[0])
+
+	print(csvfile.text)
 
 
-with open("/var/www/seleniumtest/data/Data_Gov_Chattisgarh.CSV",  encoding="utf8", errors='ignore') as f:
-	data = f.read()
-	i = 0
-	for row in data.split('\n'):
-		if row != '':
-			if i > 0:
-				cin= row.split(',')[0]
-				print(cin.replace("'",'').replace('"',''))
+# with open("/var/www/seleniumtest/data/Data_Gov_Chattisgarh.CSV",  encoding="utf8", errors='ignore') as f:
+# 	data = f.read()
+# 	i = 0
+# 	for row in data.split('\n'):
+# 		if row != '':
+# 			if i > 0:
+# 				cin= row.split(',')[0]
+# 				print(cin.replace("'",'').replace('"',''))
 
-			i +=1
-# browser.quit()
+# 			i +=1
