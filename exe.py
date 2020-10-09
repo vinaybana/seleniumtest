@@ -49,5 +49,3 @@ for i in range(total_page):
 	pagination = browser.find_element_by_id("example_next")
 	browser.execute_script("arguments[0].click();", pagination)
 	time.sleep(10)
-
-	
