@@ -29,18 +29,13 @@ browser.get('https://www.mca.gov.in/MinistryV2/incorporatedorclosedduringthemont
 browser.find_element_by_class_name("rules").click()
 time.sleep(5)
 total_file = browser.find_element_by_id("example_info").text
-print(total_file)
 total_count = total_file.split(' ')[5]
-print(total_count)
 total_page = (int(total_count)//6)+1
-print(total_page)
 for i in range(total_page):
 
 	excelfiles = browser.find_elements_by_class_name("descinner")
 	action = ActionChains(browser);
-	print(excelfiles)
 	for excelfile in excelfiles:
-		print('heeeeeeeeeeeee')
 		excelfile.click()
 		time.sleep(2)
 
