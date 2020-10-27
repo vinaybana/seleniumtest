@@ -24,7 +24,7 @@ def Query(sql):
 f=open('comp.txt', 'r')
 a=f.read()
 f.close()
-filepath="/var/www/seleniumtest/excel/NEW.xlsx"
+filepath="/var/www/seleniumtest/excel/acexcel.xlsx"
 wb=openpyxl.load_workbook(filepath)
 sheet=wb.active
 rowcount = sheet.max_row

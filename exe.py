@@ -11,12 +11,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
-prefs = {"download.default_directory" : '/var/www/seleniumtest/excel/'}
+prefs = {"download.default_directory" : '/var/www/seleniumtest/archive/'}
 
 options = Options()			
 options.add_argument("--start-maximized")
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
+options.add_argument("--remote-debugging-port=9222")
 options.add_experimental_option("prefs",prefs)
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 options.add_argument("--silent")
@@ -25,8 +26,8 @@ browser = webdriver.Chrome('/var/www/chromedriver', options=options)
 
 
 
-browser.get('https://www.mca.gov.in/MinistryV2/incorporatedorclosedduringthemonth.html')
-browser.find_element_by_class_name("rules").click()
+browser.get('https://www.mca.gov.in/MinistryV2/eir_archive.html')
+# browser.find_element_by_class_name("rules").click()
 time.sleep(5)
 total_file = browser.find_element_by_id("example_info").text
 total_count = total_file.split(' ')[5]
